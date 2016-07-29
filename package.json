@@ -1,0 +1,16 @@
+{
+  "name": "mean_lab",
+  "version": "1.0.0",
+  "description": "Drawing with WebSockets and p5.js.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joe Calvillo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.5.7",
+    "socket.io": "^1.4.5"
+  }
+}
