@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var mongoose = require('mongoose');
 
-mongoose.connect("mongodb://jc-mean-lab.herokuapp.com/draw");
+mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/draw");
 
 var UserId = mongoose.model("UserId", new mongoose.Schema({
   socketId: String

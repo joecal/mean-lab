@@ -10,7 +10,7 @@ function setup() {
 
   background(r, g, b);
 
-  socket = io.connect('https://jc-mean-lab.herokuapp.com');
+  socket = io.connect('https://jc-mean-lab.herokuapp.com/');
 
   socket.on('mouse',
 
