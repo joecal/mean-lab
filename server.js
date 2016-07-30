@@ -1,19 +1,19 @@
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/draw");
-
-var UserId = mongoose.model("UserId", new mongoose.Schema({
-  socketId: String
-}));
-
-app.get("/api/users", function (req, res) {
-  UserId.find({}).lean().exec().then(function (users) {
-    res.json(users);
-  })
-})
+// var http = require('http').Server(app);
+// var mongoose = require('mongoose');
+//
+// mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/draw");
+//
+// var UserId = mongoose.model("UserId", new mongoose.Schema({
+//   socketId: String
+// }));
+//
+// app.get("/api/users", function (req, res) {
+//   UserId.find({}).lean().exec().then(function (users) {
+//     res.json(users);
+//   })
+// })
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
@@ -43,7 +43,7 @@ io.sockets.on('connection',
     );
 
     socket.on('disconnect', function(req, res){
-      UserId.find({}).remove().exec();
+      // UserId.find({}).remove().exec();
       console.log("Client has disconnected");
     });
   }
