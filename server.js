@@ -31,9 +31,9 @@ io.sockets.on('connection',
 
   function (socket) {
 
-    if (socket) UserId.create({socketId: socket.id});
+    // if (socket) UserId.create({socketId: socket.id});
 
-    console.log("We have a new client: " + socket.id);
+    // console.log("We have a new client: " + socket.id);
 
     socket.on('mouse',
       function(data) {
