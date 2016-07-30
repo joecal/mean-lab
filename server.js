@@ -42,13 +42,6 @@ io.sockets.on('connection',
       }
     );
 
-    // socket.on('color',
-    //   function(data) {
-    //     // console.log("Received: 'color' " + data.r + " " + data.g + " " + data.b + " " + data.v );
-    //     socket.broadcast.emit('color', data);
-    //   }
-    // );
-
     socket.on('disconnect', function(req, res){
       UserId.find({}).remove().exec();
       console.log("Client has disconnected");
