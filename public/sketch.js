@@ -52,3 +52,7 @@ function sendmouse(xpos, ypos) {
 
   socket.emit('mouse',data);
 }
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
