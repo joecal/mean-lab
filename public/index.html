@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="ngDraw">
   <head>
     <meta charset="UTF-8">
     <title>Draw WebSockets</title>
@@ -26,13 +26,13 @@
       }
     </style>
   </head>
-  <body>
-    <!-- <div>{{vm.users.length}}</div> -->
+  <body data-ng-controller="userCtrl as vm">
+    <div>{{vm.users.length}}</div>
     <script src="https://jc-mean-lab.herokuapp.com/socket.io/socket.io.js"></script>
     <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.min.js"></script>
-    <!-- <script>
+    <script>
       var socket = io();
       angular
         .module('ngDraw', [ 'ngResource' ])
@@ -53,6 +53,6 @@
             method: { update: "PUT" }
           });
         }
-    </script> -->
+    </script>
   </body>
 </html>
