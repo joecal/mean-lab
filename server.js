@@ -1,19 +1,25 @@
 var express = require('express');
 var app = express();
-// var http = require('http').Server(app);
-// var mongoose = require('mongoose');
-//
+var http = require('http').Server(app);
+var mongoose = require('mongoose');
+
 // mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/draw");
-//
-// var UserId = mongoose.model("UserId", new mongoose.Schema({
-//   socketId: String
-// }));
-//
-// app.get("/api/users", function (req, res) {
-//   UserId.find({}).lean().exec().then(function (users) {
-//     res.json(users);
-//   })
-// })
+
+var UserId = mongoose.model("UserId", new mongoose.Schema({
+  socketId: String
+}));
+
+if(process.env.NODE_ENV == "production"){
+  mongoose.connect(process.env.MONGOLAB_URI);
+}else{
+  mongoose.connect("mongodb://localhost/draw");
+}
+
+app.get("/api/users", function (req, res) {
+  UserId.find({}).lean().exec().then(function (users) {
+    res.json(users);
+  })
+})
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
@@ -31,7 +37,7 @@ io.sockets.on('connection',
 
   function (socket) {
 
-    // if (socket) UserId.create({socketId: socket.id});
+    if (socket) UserId.create({socketId: socket.id});
 
     // console.log("We have a new client: " + socket.id);
 
