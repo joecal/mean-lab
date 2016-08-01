@@ -10,7 +10,7 @@ var UserId = mongoose.model("UserId", new mongoose.Schema({
 }));
 
 if(process.env.NODE_ENV == "production"){
-  mongoose.connect(process.env.MONGOLAB_URI);
+  mongoose.connect(process.env.MONGODB_URI);
 }else{
   mongoose.connect("mongodb://localhost/draw");
 }
