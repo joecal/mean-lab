@@ -47,7 +47,7 @@ io.sockets.on('connection',
     );
 
     socket.on('disconnect', function(){
-      UserId.find({}).remove().exec();
+      UserId.findOne({socketId: socket.id}).remove().exec();
       console.log("Client has disconnected");
     });
   }
