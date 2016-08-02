@@ -1,4 +1,4 @@
-var socket;
+var sockets;
 
 var r, g, b;
 function setup() {
@@ -10,9 +10,9 @@ function setup() {
 
   background(r, g, b);
 
-  // socket = io.connect('https://jc-mean-lab.herokuapp.com/');
+  sockets = io.connect('https://jc-mean-lab.herokuapp.com/');
 
-  socket.on('mouse',
+  sockets.on('mouse',
 
     function(data) {
       // console.log("Got: " + data.x + " " + data.y);
@@ -24,7 +24,7 @@ function setup() {
       ellipse(data.x, data.y, 80, 80);
     }
   );
-  socket.on('color', function(data) {
+  sockets.on('color', function(data) {
       // console.log("Got: " + data.r + " " + data.g + " " + data.b + " " + data.v);
       background(data.r, data.g, data.b, data.v);
     }
@@ -50,7 +50,7 @@ function sendmouse(xpos, ypos) {
     y: ypos
   };
 
-  socket.emit('mouse',data);
+  sockets.emit('mouse',data);
 }
 
 function windowResized() {
