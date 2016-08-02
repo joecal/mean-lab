@@ -3,8 +3,6 @@ var app = express();
 var http = require('http').Server(app);
 var mongoose = require('mongoose');
 
-// mongoose.connect(process.env.MONGOLAB_URI || "mongodb://localhost/draw");
-
 var UserId = mongoose.model("UserId", new mongoose.Schema({
   socketId: String
 }));
@@ -24,9 +22,9 @@ app.get("/api/users", function (req, res) {
 var server = app.listen(process.env.PORT || 3000, listen);
 
 function listen() {
-  // var host = server.address().address;
+  var host = server.address().address;
   var port = server.address().port;
-  console.log('App listening at http://:' + port);
+  console.log('App listening at http://' + host + ':' + port);
 }
 
 app.use(express.static('public'));
@@ -39,7 +37,7 @@ io.sockets.on('connection',
 
     if (socket) UserId.create({socketId: socket.id});
 
-    // console.log("We have a new client: " + socket.id);
+    console.log("We have a new client: " + socket.id);
 
     socket.on('mouse',
       function(data) {
@@ -48,8 +46,8 @@ io.sockets.on('connection',
       }
     );
 
-    socket.on('disconnect', function(req, res){
-      // UserId.find({}).remove().exec();
+    socket.on('disconnect', function(){
+      UserId.findOne({socketId: socket.id}).remove().exec();
       console.log("Client has disconnected");
     });
   }
