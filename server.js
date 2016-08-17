@@ -2,13 +2,14 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var mongoose = require('mongoose');
+var $ = require('jquery')(require("jsdom").jsdom().defaultView);
 
 var UserId = mongoose.model("UserId", new mongoose.Schema({
   socketId: String
 }));
 
 if(process.env.NODE_ENV == "production"){
-  mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URL);
 }else{
   mongoose.connect("mongodb://localhost/draw");
 }
@@ -37,6 +38,10 @@ io.sockets.on('connection',
 
     if (socket) UserId.create({socketId: socket.id});
 
+    var usersPresent = io.engine.clientsCount;
+
+    console.log(io.engine.clientsCount);
+
     console.log("We have a new client: " + socket.id);
 
     socket.on('mouse',
@@ -47,7 +52,8 @@ io.sockets.on('connection',
     );
 
     socket.on('disconnect', function(){
-      UserId.findOne({socketId: socket.id}).remove().exec();
+      UserId.find({}).remove().exec();
+      // UserId.findOneAndRemove({socketId: socket.id}).remove().exec();
       console.log("Client has disconnected");
     });
   }

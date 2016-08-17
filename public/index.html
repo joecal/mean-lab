@@ -28,25 +28,35 @@
     </style>
   </head>
   <body data-ng-controller="userCtrl as vm">
-    <script src="https://jc-mean-lab.herokuapp.com/socket.io/socket.io.js"></script>
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <!-- <script src="https://jc-mean-lab.herokuapp.com/socket.io/socket.io.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.min.js"></script>
     <script>
-      var socket = io();
       angular
         .module('ngDraw', [ 'ngResource' ])
         .factory("UserFactory", [ "$resource", User ])
+        .factory('Socket', function () {
+            var Socket = io.connect('http://localhost:3000');
+            return Socket;
+        })
         .controller('userCtrl', [
+          "Socket",
+          "$rootScope",
           "$scope",
           "UserFactory",
           userController
         ]);
-        function userController ($scope, UserFactory) {
+        function userController (Socket, $rootScope, $scope, UserFactory) {
           var vm = this;
           UserFactory.query().$promise.then(function (users) {
             vm.users = users;
+          })
+          Socket.on('connection', function () {
+              vm.users = io.engine.clientsCount;
+              $rootScope.$apply();
           });
+          return vm.users;
         }
         function User ($resource) {
           return $resource("/api/users", {}, {
@@ -54,6 +64,6 @@
           });
         }
     </script>
-      <div><p>Users Present: {{vm.users.length - 1}}</p></div>
+      <!-- <div><p>Users Present: {{vm.users.length / 2}}</p></div> -->
   </body>
 </html>
